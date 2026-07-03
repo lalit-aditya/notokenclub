@@ -1,0 +1,13 @@
+# raw camera originals (5-8MB each) — site uses the compressed presence/web/ versions
+presence/*.JPG
+presence/*.jpg
+presence/*.JPEG
+presence/*.PNG
+!presence/web/
+
+# redundant archive — FreeKnight_v1/ folder is already extracted and in use
+FreeKnight_v1.zip
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db

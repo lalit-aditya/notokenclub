@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research ✦ notokenclub — actions &gt; awareness</title>
+<meta name="description" content="notokenclub research — we don't stop at awareness. Pick a real problem, dig to the core, build, write the paper, present it.">
+<link rel="icon" href="LOGO.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@300;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--fg:#f0ede6;--accent:#e8ff47;--muted:#3a3a3a;--muted-text:#8a8a82;
+  --surface:#111111;--blue:#2e4fff;
+  --display:'Inter','Helvetica Neue',Arial,sans-serif;
+  --mono:'Geist Mono','Courier New',monospace;
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+}
+html{background:var(--bg)}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--mono);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--mono);cursor:pointer;background:none;border:none;color:inherit}
+img{max-width:100%;display:block}
+body,*{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='48' viewBox='0 0 22 26'%3E%3Cpath d='M2 1 L2 20 L6 15 L10 24 L13 23 L9 14 L16 14 Z' fill='%23e8ff47'/%3E%3C/svg%3E") 2 1,auto!important}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--muted)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+html{scrollbar-width:thin;scrollbar-color:var(--muted) var(--bg)}
+
+.label{font-family:var(--mono);text-transform:uppercase;letter-spacing:0.12em;font-size:11px;color:var(--muted-text)}
+.star{color:var(--accent)}
+.section{max-width:1280px;margin:0 auto;padding:clamp(72px,10vw,140px) clamp(20px,4vw,48px)}
+.section-title{
+  font-family:var(--display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(40px,7vw,96px);letter-spacing:-0.04em;line-height:0.95;
+}
+.btn{
+  font-family:var(--mono);text-transform:uppercase;letter-spacing:0.12em;font-size:12px;
+  padding:18px 36px;display:inline-block;
+  transition:background .3s ease,color .3s ease,border-color .3s ease;
+}
+.btn-outline{border:1px solid var(--blue);color:var(--blue)}
+.btn-outline:hover{background:var(--blue);color:#fff}
+.btn-fill{background:var(--accent);color:var(--bg);border:1px solid var(--accent)}
+.btn-fill:hover{background:transparent;color:var(--accent)}
+[data-reveal]{opacity:0;transform:translateY(36px);transition:opacity .6s ease,transform .6s ease}
+[data-reveal].in{opacity:1;transform:none}
+
+/* nav */
+#menuBtn{
+  position:fixed;top:20px;left:24px;z-index:1000;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted-text);background:rgba(10,10,10,0.72);
+  border:1px solid var(--muted);border-radius:20px;padding:6px 16px;
+  backdrop-filter:blur(8px);transition:color .25s,border-color .25s;
+}
+#menuBtn:hover{color:var(--accent);border-color:var(--accent)}
+#menuBtn .m-ico{display:inline-flex;flex-direction:column;gap:3px}
+#menuBtn .m-ico i{display:block;width:14px;height:2px;background:currentColor}
+#navOverlay{
+  position:fixed;inset:0;z-index:990;background:rgba(10,10,10,0.97);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(24px,6vw,80px);
+  visibility:hidden;opacity:0;
+  transition:opacity .35s ease,visibility 0s linear .35s;
+}
+#navOverlay::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(232,255,71,0.02) 0 1px,transparent 1px 4px);
+}
+#navOverlay.open{visibility:visible;opacity:1;transition:opacity .35s ease,visibility 0s}
+.nav-links{display:flex;flex-direction:column;gap:4px;position:relative}
+.nav-links a{
+  position:relative;width:fit-content;padding-left:56px;
+  font-family:var(--display);font-weight:900;text-transform:uppercase;
+  font-size:clamp(36px,7.5vw,84px);letter-spacing:-0.03em;line-height:1.08;
+  color:var(--muted-text);
+  transform:translateY(30px);opacity:0;
+  transition:color .2s ease,transform .5s var(--ease-out-expo),opacity .4s ease;
+}
+#navOverlay.open .nav-links a{transform:translateY(0);opacity:1}
+.nav-links a:hover,.nav-links a.nav-current{color:var(--fg)}
+.nav-links a::before{
+  content:attr(data-num);position:absolute;left:0;top:0.45em;
+  font-family:var(--mono);font-weight:400;font-size:12px;letter-spacing:0.14em;color:var(--muted-text);
+}
+.nav-links a.nav-current::after{content:'✦';position:absolute;right:-40px;top:0.28em;font-size:0.35em;color:var(--accent)}
+.nav-links a:hover::before{color:var(--accent)}
+#navPacDot{
+  position:absolute;width:22px;height:22px;background:var(--accent);border-radius:50%;
+  clip-path:polygon(50% 50%,100% 22%,100% 0%,0% 0%,0% 100%,100% 100%,100% 78%);
+  animation:chomp 0.32s ease-in-out infinite alternate;
+  left:14px;top:-40px;opacity:0;
+  transition:top .3s var(--ease-out-expo),opacity .2s ease;pointer-events:none;
+}
+@keyframes chomp{
+  0%  {clip-path:polygon(50% 50%,100% 22%,100% 0%,0% 0%,0% 100%,100% 100%,100% 78%)}
+  100%{clip-path:polygon(50% 50%,100% 50%,100% 0%,0% 0%,0% 100%,100% 100%,100% 50%)}
+}
+.nav-foot{margin-top:clamp(28px,5vh,56px);font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--muted-text)}
+.nav-foot a{color:var(--accent)}
+#navClose{
+  position:absolute;top:20px;right:24px;font-size:22px;color:var(--muted-text);line-height:1;padding:8px;
+  transition:color .2s,transform .3s;
+}
+#navClose:hover{color:var(--accent);transform:rotate(90deg)}
+
+/* hero */
+#hero{padding-top:clamp(140px,18vw,200px);text-align:left}
+.hero-sub{
+  font-family:var(--display);font-weight:300;
+  font-size:clamp(17px,2.2vw,24px);line-height:1.6;
+  max-width:720px;margin-top:28px;
+}
+.hero-sub em{font-style:normal;color:var(--accent)}
+
+/* code motive */
+.code-block{
+  background:var(--surface);border:1px solid var(--muted);
+  padding:clamp(24px,4vw,48px);
+  font-family:var(--mono);font-size:clamp(13px,1.6vw,17px);line-height:1.9;
+  overflow-x:auto;position:relative;
+}
+.code-block .win-dots{display:flex;gap:6px;margin-bottom:22px}
+.code-block .win-dots i{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.code-block .win-dots i:first-child{background:var(--accent)}
+.code-line{display:flex;gap:20px;white-space:pre}
+.code-line .ln{color:var(--muted);user-select:none;min-width:2ch;text-align:right}
+.code-line .code{color:var(--fg)}
+.tk-c{color:var(--muted-text)} /* comment */
+.tk-k{color:var(--blue)}       /* keyword */
+.tk-a{color:var(--accent)}     /* highlight */
+.type-cursor{display:inline-block;width:0.6em;height:1.1em;background:var(--blue);vertical-align:text-bottom;animation:blink 1s step-end infinite}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+/* format steps */
+.steps{display:flex;flex-direction:column;position:relative;margin-top:8px}
+.steps::before{content:'';position:absolute;left:31px;top:0;bottom:0;width:1px;background:var(--muted)}
+.step{
+  display:grid;grid-template-columns:64px 1fr;gap:24px;align-items:start;
+  padding:28px 0;border-bottom:1px solid var(--muted);position:relative;
+}
+.step-num{
+  width:64px;height:64px;border:1px solid var(--muted);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:900;font-size:20px;color:var(--accent);
+  position:relative;z-index:1;
+  transition:background .25s,color .25s,transform .25s;
+}
+.step:hover .step-num{background:var(--accent);color:var(--bg);transform:rotate(-4deg)}
+.step h3{
+  font-family:var(--display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(20px,3vw,32px);letter-spacing:-0.02em;
+}
+.step p{margin-top:8px;font-size:13px;line-height:1.75;color:var(--muted-text);max-width:640px}
+
+/* benefits */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.benefit{
+  border:1px solid var(--muted);background:var(--surface);
+  padding:28px 26px;display:flex;flex-direction:column;gap:14px;
+  transition:border-color .3s,transform .3s;
+}
+.benefit:hover{border-color:var(--accent);transform:translateY(-4px)}
+.benefit .b-num{font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--accent)}
+.benefit p{font-size:13.5px;line-height:1.75;color:var(--fg);opacity:0.85}
+.benefit strong{color:var(--accent);font-weight:500}
+
+/* cascading gallery */
+.cascade{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+@media(max-width:760px){.cascade{grid-template-columns:repeat(2,1fr)}.cas-col:nth-child(3){display:none}}
+.cas-col{display:flex;flex-direction:column;gap:16px;will-change:transform}
+.cas-col:nth-child(2){margin-top:48px}
+.cas-col:nth-child(3){margin-top:96px}
+.cas-item{position:relative;overflow:hidden;border:1px solid var(--muted);margin:0}
+.cas-item img{
+  width:100%;display:block;
+  filter:grayscale(1);transform:scale(1.01);
+  transition:filter .5s,transform .7s var(--ease-out-expo);
+}
+.cas-item:hover{border-color:var(--accent)}
+.cas-item:hover img{filter:grayscale(0);transform:scale(1.06)}
+.cas-item figcaption{
+  position:absolute;left:0;right:0;top:0;
+  padding:10px 14px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fg);
+  background:linear-gradient(rgba(10,10,10,0.92),transparent);
+  transform:translateY(-100%);
+  transition:transform .35s var(--ease-out-expo);
+  display:flex;gap:10px;
+}
+.cas-item figcaption span{color:var(--accent)}
+.cas-item:hover figcaption{transform:translateY(0)}
+
+/* cta */
+#cta{text-align:center}
+.paper-num{
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(56px,10vw,120px);letter-spacing:-0.04em;line-height:1;color:var(--accent);
+}
+.coin-cursor{display:inline-block;margin-left:6px;animation:blink 1s step-end infinite}
+.cta-copy{max-width:520px;margin:24px auto 40px;font-size:14px;line-height:1.8;color:var(--muted-text)}
+.cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--muted);padding:32px clamp(20px,4vw,48px);text-align:center;font-size:11px;color:var(--muted-text);letter-spacing:0.08em}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<button id="menuBtn" aria-label="Open menu" aria-expanded="false"><span class="m-ico"><i></i><i></i></span> Menu</button>
+<div id="navOverlay" aria-hidden="true">
+  <nav class="nav-links" aria-label="Site">
+    <div id="navPacDot"></div>
+    <a href="Index.html" data-num="01">Home</a>
+    <a href="events.html" data-num="02">Events</a>
+    <a href="research.html" data-num="03" class="nav-current">Research</a>
+    <a href="members.html" data-num="04">Members</a>
+    <a href="Index.html#join" data-num="05">Join ✦</a>
+  </nav>
+  <p class="nav-foot">notokenclub <span class="star">✦</span> chennai · coimbatore — <a href="mailto:notokenclub26@gmail.com">notokenclub26@gmail.com</a></p>
+  <button id="navClose" aria-label="Close menu">✕</button>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="section" id="hero">
+  <p class="label">Research <span class="star">✦</span> notokenclub</p>
+  <h1 class="section-title" style="margin-top:20px">Actions &gt;<br>Awareness</h1>
+  <p class="hero-sub" data-reveal>
+    Your goal here is to push the <em>implementation stage</em> to the next level — with actions.
+    Our goals are not awareness. <em>1 step is greater than 1000 thoughts.</em>
+  </p>
+</section>
+
+<!-- ============ CODE MOTIVE ============ -->
+<section class="section" id="motive" style="padding-top:0">
+  <div class="code-block" data-reveal id="codeBlock">
+    <div class="win-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div id="codeLines" aria-label="Our motive, as code"></div>
+  </div>
+</section>
+
+<!-- ============ FORMAT ============ -->
+<section class="section" id="format">
+  <p class="label" data-reveal style="margin-bottom:16px">The <span class="star">✦</span> format</p>
+  <h2 class="section-title" data-reveal>Our Research Format</h2>
+  <div class="steps" style="margin-top:48px">
+    <div class="step" data-reveal>
+      <div class="step-num">01</div>
+      <div><h3>Pick a real problem</h3><p>Not a toy dataset. Something you or people around you actually hit. Real problems are the essential raw material — the skill successful founders, researchers, and builders share.</p></div>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">02</div>
+      <div><h3>Dig to the core</h3><p>Understand the problem at its root, not its symptoms. Read what exists, argue about it at the weekly gathering, and find the gap worth attacking.</p></div>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">03</div>
+      <div><h3>Build the smallest fix</h3><p>Implementation first. A rough working thing beats a polished plan — this is where "1 step &gt; 1000 thoughts" stops being a quote and starts being a commit.</p></div>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">04</div>
+      <div><h3>Write the paper</h3><p>Turn what you built and learned into a portfolio-worthy research paper. We help with structure, citations, and honest results — no fluff.</p></div>
+    </div>
+    <div class="step" data-reveal>
+      <div class="step-num">05</div>
+      <div><h3>Present + defend</h3><p>Present it to the club, take the questions, defend the ideas. Then we feature it on the notokenclub site and socials for real exposure.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section class="section" id="benefits">
+  <p class="label" data-reveal style="margin-bottom:16px">Why bother <span class="star">✦</span></p>
+  <h2 class="section-title" data-reveal style="font-size:clamp(30px,5vw,64px)">How is this going to benefit you?</h2>
+  <div class="benefits-grid" style="margin-top:48px" data-reveal>
+    <div class="benefit"><span class="b-num">01 ✦</span><p>You don't just understand problems and build solutions — you <strong>develop your own research paper</strong> by understanding the core of it.</p></div>
+    <div class="benefit"><span class="b-num">02 ✦</span><p>Get your work <strong>featured on the notokenclub website and social media</strong> for greater exposure.</p></div>
+    <div class="benefit"><span class="b-num">03 ✦</span><p>Build a <strong>portfolio-worthy research paper</strong> that showcases your research and problem-solving skills.</p></div>
+    <div class="benefit"><span class="b-num">04 ✦</span><p>Learn to <strong>identify and analyze real problems</strong> — the essential skill used by successful founders, researchers, and product builders.</p></div>
+    <div class="benefit"><span class="b-num">05 ✦</span><p><strong>Collaborate with like-minded people</strong>, exchange ideas, and gain new perspectives.</p></div>
+    <div class="benefit"><span class="b-num">06 ✦</span><p>Improve your <strong>critical thinking, research, and communication skills</strong> through discussion and feedback.</p></div>
+    <div class="benefit"><span class="b-num">07 ✦</span><p>Practice <strong>presenting and defending your ideas</strong> with confidence.</p></div>
+  </div>
+</section>
+
+<!-- ============ CASCADING GALLERY ============ -->
+<section class="section" id="gallery">
+  <p class="label" data-reveal style="margin-bottom:16px">In the room <span class="star">✦</span></p>
+  <h2 class="section-title" data-reveal>Research, Live</h2>
+  <div class="cascade" style="margin-top:48px">
+    <div class="cas-col" data-speed="-8">
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-board/500/650" loading="lazy" alt=""><figcaption><span>✦</span>whiteboard wars</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-read/500/400" loading="lazy" alt=""><figcaption><span>✦</span>paper club in session</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-chai/500/560" loading="lazy" alt=""><figcaption><span>✦</span>chai-fueled reviews</figcaption></figure>
+    </div>
+    <div class="cas-col" data-speed="-16">
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-demo/500/520" loading="lazy" alt=""><figcaption><span>✦</span>first working demo</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-argue/500/640" loading="lazy" alt=""><figcaption><span>✦</span>defending the idea</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-notes/500/420" loading="lazy" alt=""><figcaption><span>✦</span>field notes</figcaption></figure>
+    </div>
+    <div class="cas-col" data-speed="-26">
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-code/500/580" loading="lazy" alt=""><figcaption><span>✦</span>implementation night</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-crew/500/460" loading="lazy" alt=""><figcaption><span>✦</span>the research crew</figcaption></figure>
+      <figure class="cas-item"><img src="https://picsum.photos/seed/ntcr-present/500/620" loading="lazy" alt=""><figcaption><span>✦</span>presenting v1</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section" id="cta">
+  <p class="label" data-reveal>papers published</p>
+  <div class="paper-num" data-reveal>00<span class="coin-cursor">▮</span></div>
+  <p class="cta-copy" data-reveal>we read papers every week. wrote zero. that math is embarrassing — <span class="star">try to publish one na ✦</span> got an idea, a draft, or a half-broken experiment? bring it.</p>
+  <div class="cta-row" data-reveal>
+    <a class="btn btn-fill" href="mailto:notokenclub26@gmail.com?subject=notokenclub%20%E2%9C%A6%20research">mail us @</a>
+    <a class="btn btn-outline" href="Index.html">← back home</a>
+  </div>
+</section>
+
+<footer>© 2026 notokenclub · made in chennai <span class="star">✦</span></footer>
+
+<script>
+(function () {
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Lenis ---------- */
+  if (!reduceMotion && window.Lenis) {
+    var lenis = new Lenis({
+      duration: 1.0,
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.4
+    });
+    window._lenis = lenis;
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+      lenis.on('scroll', ScrollTrigger.update);
+    } else {
+      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+    }
+  }
+
+  /* ---------- Reveals ---------- */
+  var els = document.querySelectorAll('[data-reveal]');
+  if (reduceMotion || !window.IntersectionObserver) {
+    els.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { obs.observe(el); });
+  }
+
+  /* ---------- Title scramble ---------- */
+  if (!reduceMotion && window.IntersectionObserver) {
+    var GLYPHS = 'ΞΔ#%&@$01▮✦<>/';
+    document.querySelectorAll('.section-title').forEach(function (el) {
+      var tn = el.firstChild;
+      if (!tn || tn.nodeType !== 3 || !tn.textContent.trim()) return;
+      var finalText = tn.textContent;
+      var o = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        o.unobserve(el);
+        var frame = 0, total = 24;
+        var timer = setInterval(function () {
+          frame++;
+          var out = '';
+          for (var i = 0; i < finalText.length; i++) {
+            var reveal = (i / finalText.length) * total * 0.8;
+            if (finalText[i] === ' ' || frame > reveal + 4) out += finalText[i];
+            else out += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+          }
+          tn.textContent = out;
+          if (frame >= total) { tn.textContent = finalText; clearInterval(timer); }
+        }, 30);
+      }, { threshold: 0.4 });
+      o.observe(el);
+    });
+  }
+
+  /* ---------- Typed code motive ---------- */
+  (function () {
+    var host = document.getElementById('codeLines');
+    if (!host) return;
+    var LINES = [
+      '<span class="tk-c">// our motive</span>',
+      '<span class="tk-k">while</span> (thoughts++ <span class="tk-k">&lt;</span> <span class="tk-a">1000</span>) {',
+      '  ship(<span class="tk-k">nothing</span>);',
+      '}',
+      'take(<span class="tk-a">1</span>).step();       <span class="tk-c">// &gt; 1000 thoughts</span>',
+      'push(<span class="tk-a">implementation</span>); <span class="tk-c">// to the next level ✦</span>'
+    ];
+    function render(upTo, partialLen) {
+      host.innerHTML = '';
+      for (var i = 0; i <= upTo && i < LINES.length; i++) {
+        var row = document.createElement('div');
+        row.className = 'code-line';
+        var full = LINES[i];
+        var content;
+        if (i < upTo) content = full;
+        else {
+          /* type by visible chars: strip tags for partial, re-add plain */
+          var plain = full.replace(/<[^>]+>/g, '');
+          content = plain.slice(0, partialLen).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+          if (partialLen >= plain.length) content = full;
+        }
+        row.innerHTML = '<span class="ln">' + (i + 1) + '</span><span class="code">' + content + (i === upTo ? '<span class="type-cursor"></span>' : '') + '</span>';
+        host.appendChild(row);
+      }
+    }
+    if (reduceMotion || !window.IntersectionObserver) {
+      render(LINES.length - 1, 9999);
+      return;
+    }
+    var started = false;
+    var o = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting || started) return;
+      started = true;
+      o.disconnect();
+      var line = 0, ch = 0;
+      var timer = setInterval(function () {
+        var plain = LINES[line].replace(/<[^>]+>/g, '');
+        ch++;
+        render(line, ch);
+        if (ch >= plain.length) {
+          line++;
+          ch = 0;
+          if (line >= LINES.length) {
+            clearInterval(timer);
+            render(LINES.length - 1, 9999);
+          }
+        }
+      }, 26);
+    }, { threshold: 0.4 });
+    o.observe(host);
+  })();
+
+  /* ---------- Cascading gallery: columns drift at different speeds ---------- */
+  if (!reduceMotion && window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    document.querySelectorAll('.cas-col').forEach(function (col) {
+      gsap.to(col, {
+        yPercent: parseFloat(col.getAttribute('data-speed')) || -10,
+        ease: 'none',
+        scrollTrigger: { trigger: '.cascade', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+    gsap.from('.cas-item', {
+      y: 60, opacity: 0, duration: 0.7, stagger: 0.07, ease: 'power2.out',
+      scrollTrigger: { trigger: '.cascade', start: 'top 85%', toggleActions: 'play none none none' }
+    });
+  }
+
+  /* ---------- Nav overlay ---------- */
+  var btn = document.getElementById('menuBtn');
+  var overlay = document.getElementById('navOverlay');
+  var closeBtn = document.getElementById('navClose');
+  var pacDot = document.getElementById('navPacDot');
+  if (btn && overlay) {
+    var links = overlay.querySelectorAll('.nav-links a');
+    var openNav = function () {
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      if (window._lenis) window._lenis.stop();
+      links.forEach(function (a, i) { a.style.transitionDelay = (0.06 + i * 0.06) + 's'; });
+    };
+    var closeNav = function () {
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (window._lenis) window._lenis.start();
+      links.forEach(function (a) { a.style.transitionDelay = '0s'; });
+      if (pacDot) pacDot.style.opacity = '0';
+    };
+    btn.addEventListener('click', function () {
+      overlay.classList.contains('open') ? closeNav() : openNav();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeNav();
+    });
+    links.forEach(function (a) {
+      a.addEventListener('mouseenter', function () {
+        if (!pacDot) return;
+        pacDot.style.top = (a.offsetTop + a.offsetHeight / 2 - 11) + 'px';
+        pacDot.style.opacity = '1';
+      });
+    });
+    var navEl = overlay.querySelector('.nav-links');
+    if (navEl) navEl.addEventListener('mouseleave', function () { if (pacDot) pacDot.style.opacity = '0'; });
+  }
+})();
+</script>
+</body>
+</html>
